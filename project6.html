@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Internet Speed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://source.unsplash.com/random?topics=nature');
+            background-size: cover;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.5s ease;
+        }
+
+        .section {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            flex: 1;
+        }
+
+        .speed-indicator {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            transition: transform 1s ease;
+        }
+
+        .kbps,
+        .mbps {
+            font-size: 18px;
+            font-weight: normal;
+        }
+
+        .speed-increase {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 8px solid transparent;
+            border-top-color: #3498db;
+            animation: spin 1s linear forwards;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="section" id="uploadSection">
+            <div class="speed-indicator">
+                <div class="speed-increase"></div>
+                <span id="uploadSpeed">0</span>
+                <span class="kbps">KB/s</span>
+            </div>
+            <p>Upload Speed</p>
+        </div>
+        <div class="section" id="downloadSection">
+            <div class="speed-indicator">
+                <div class="speed-increase"></div>
+                <span id="downloadSpeed">0</span>
+                <span class="kbps">KB/s</span>
+            </div>
+            <p>Download Speed</p>
+        </div>
+        <div class="section" id="overallSection">
+            <div class="speed-indicator">
+                <div class="speed-increase"></div>
+                <span id="overallSpeed">0</span>
+                <span class="mbps">MB/s</span>
+            </div>
+            <p>Overall Speed</p>
+        </div>
+    </div>
+
+    <script>
+        let uploadSection = document.getElementById("uploadSection");
+        let downloadSection = document.getElementById("downloadSection");
+        let overallSection = document.getElementById("overallSection");
+
+        function updateSpeed(speed) {
+            document.querySelectorAll(".kbps").forEach(span => {
+                span.textContent = speed.toFixed(2) + " KB/s";
+            });
+            document.querySelectorAll(".mbps").forEach(span => {
+                span.textContent = (speed / 1024).toFixed(2) + " MB/s";
+            });
+            document.querySelectorAll(".speed-increase").forEach(indicator => {
+                indicator.style.animation = "none";
+            });
+
+            // Change colors after speed detection
+            uploadSection.style.backgroundColor = "#f39c12";
+            downloadSection.style.backgroundColor = "#27ae60";
+            overallSection.style.backgroundColor = "#DAF7A6 ";
+        }
+
+        let currentSpeed = 0;
+        setTimeout(() => {
+            currentSpeed = 500;
+            updateSpeed(currentSpeed);
+        }, 1000);
+    </script>
+</body>
+
+</html>

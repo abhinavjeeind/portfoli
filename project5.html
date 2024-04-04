@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List Application</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="time"] {
+            flex-grow: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #ff5851;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff403a;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li:hover {
+            background-color: #f2f2f2;
+        }
+
+        li span {
+            margin-right: 10px;
+        }
+
+        li button {
+            background-color: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        li button:hover {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <div class="input-container">
+            <input type="text" id="taskInput" placeholder="Add new task...">
+            <input type="time" id="startTimeInput">
+            <span>-</span>
+            <input type="time" id="endTimeInput">
+            <button onclick="addTask()">Add</button>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
+    <script>
+        function addTask() {
+            var taskInput = document.getElementById("taskInput");
+            var startTimeInput = document.getElementById("startTimeInput");
+            var endTimeInput = document.getElementById("endTimeInput");
+            var task = taskInput.value;
+            var startTime = startTimeInput.value;
+            var endTime = endTimeInput.value;
+            taskInput.value = "";
+            startTimeInput.value = "";
+            endTimeInput.value = "";
+
+            if (task === "" || startTime === "" || endTime === "") {
+                alert("Please enter a task, start time, and end time!");
+                return;
+            }
+
+            var taskList = document.getElementById("taskList");
+            var li = document.createElement("li");
+            var taskSpan = document.createElement("span");
+            taskSpan.textContent = task;
+            var timeSpan = document.createElement("span");
+            timeSpan.textContent = startTime + " - " + endTime;
+            var removeButton = document.createElement("button");
+            removeButton.textContent = "Remove";
+            removeButton.addEventListener("click", function () {
+                li.remove();
+            });
+            li.appendChild(taskSpan);
+            li.appendChild(timeSpan);
+            li.appendChild(removeButton);
+            taskList.appendChild(li);
+        }
+    </script>
+</body>
+</html>

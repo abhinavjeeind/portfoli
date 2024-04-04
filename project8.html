@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Role Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 90%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p.description {
+            text-align: center;
+            margin-top: 5px;
+            color: #555;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, select, button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            border: 2px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Pay Role Management</h1>
+        <p class="description">Enter the bill amount and the cash given by the customer and know the minimum number of notes to return.</p>
+
+        <label for="input-bill">Enter the bill amount</label>
+        <input class="input-bill" id="bill" type="number">
+
+        <label for="cash-given">Cash Given</label>
+        <input class="cash-given" id="cash" type="number">
+
+        <button class="check-btn" id="btn">Check</button>
+
+        <p id="error" class="error-message"></p>
+
+        <table class="table">
+            <caption><strong>Return Change</strong></caption>
+            <tr>
+                <th class="row">No of Notes</th>
+                <td class="no-of-notes"></td>
+                <td class="no-of-notes"></td>
+                <td class="no-of-notes"></td>
+                <td class="no-of-notes"></td>
+                <td class="no-of-notes"></td>
+                <td class="no-of-notes"></td>
+                <td class="no-of-notes"></td>
+            </tr>
+            <tr>
+                <th class="row">Notes</th>
+                <td class="row">2000</td>
+                <td class="row">500</td>
+                <td class="row">100</td>
+                <td class="row">20</td>
+                <td class="row">10</td>
+                <td class="row">5</td>
+                <td class="row">1</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        var inputBill = document.getElementById("bill");
+        var cashGiven = document.getElementById("cash");
+        var checkBtn = document.getElementById("btn");
+        var errMsg = document.getElementById("error");
+        var noOfNotes = document.querySelectorAll(".no-of-notes");
+        var notes = [2000, 500, 100, 20, 10, 5, 1];
+
+        function errorHandle(error) {
+            errMsg.textContent = error;
+            errMsg.style.display = "block";
+        }
+
+        function hideMessage() {
+            errMsg.style.display = "none";
+        }
+
+        function clickHandler() {
+            hideMessage();
+            if (inputBill.value < 0) {
+                errorHandle("Please enter a positive value for the bill amount.");
+                return;
+            } else {
+                var remaining = cashGiven.value - inputBill.value;
+                if (remaining < 0) {
+                    errorHandle("Cash given should be greater than or equal to the bill amount.");
+                    return;
+                } else {
+                    for (var i = 0; i < notes.length; i++) {
+                        const paisa = Math.trunc(remaining / notes[i]);
+                        remaining %= notes[i];
+                        noOfNotes[i].textContent = paisa;
+                    }
+                }
+            }
+        }
+
+        checkBtn.addEventListener("click", clickHandler);
+    </script>
+</body>
+
+</html>
